@@ -1,17 +1,18 @@
 from tkinter import *
 from math import floor
 
-# ---------------------------- CONSTANTS ------------------------------- #
+# ---------------------------- CONST/VAR ---------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
+MS  = 1000
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
-
 TICK = "✔"
+
 reps = 0
 timer = None
 
@@ -25,7 +26,7 @@ def reset_timer():
     tick_label.config(text="")
     timer_label.config(text="Let's start")
 
-# ---------------------------- TIMER MECHANISM ------------------------------- # 
+# ---------------------------- TIMER MECHANISM --------------------------- # 
 def start_timer():
     btn_start.config(state="disabled")
     global reps
@@ -44,7 +45,7 @@ def start_timer():
         count_down(work_sec)  # Work session
         timer_label.config(text="Work", fg=GREEN)
 
-# ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
+# ---------------------------- COUNTDOWN MECHANISM ----------------------- #
 
 def count_down(count):
     if count >= 0:
@@ -53,18 +54,18 @@ def count_down(count):
 
         canvas.itemconfig(timer_text, text=f"{count_minute}:{count_second}") # Args -> 1st: element of the canvas to modify, 2nd: attribute
         global timer
-        timer = window.after(1000, count_down, count-1)
+        timer = window.after(MS, count_down, count-1)
     else:
         start_timer()
         if reps % 2 == 0:
             tick_label.config(text=tick_label.cget("text") + " ✔")
 
-# ---------------------------- UI SETUP ------------------------------- #
+# ---------------------------- UI SETUP ---------------------------------- #
 
 window = Tk()
 window.title("Pomodoro")
 window.config(bg=YELLOW) 
-window.minsize(400, 400)
+window.minsize(450, 450)
 
 # Rows
 window.rowconfigure(0, weight=3)
@@ -83,7 +84,7 @@ timer_label = Label(text="Let's start", font=("Courier New", 20, "bold"), bg=YEL
 timer_label.grid(row=0, column=1, sticky="s")
 
 canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
-tomato = PhotoImage(file="tomato.png")
+tomato = PhotoImage(file="img/tomato.png")
 canvas.create_image(100, 110, image = tomato) # half of the values (to get in the center)
 timer_text = canvas.create_text(100, 130, text = "0:00", fill = "white", font = (FONT_NAME, 35, "bold"))
 canvas.grid(row=1, column=1)
